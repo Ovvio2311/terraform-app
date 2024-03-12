@@ -18,5 +18,5 @@ output "gke_auth" {
 }
 
 output "content" {
-  value = kubernetes_manifest.my_resource.manifest
+  value = kubernetes_manifest.cluster_issuer.manifest
 }
