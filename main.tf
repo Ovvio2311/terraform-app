@@ -58,7 +58,7 @@ resource "kubernetes_namespace" "cert-manager" {
 
 data "http" "cert-manager" {
   # count = var.enable_argocd ? 1 : 0
-  url   = "https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.yaml"
+  url   = "https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml"
 }
 
 resource "kubectl_manifest" "cert-manager-crds" {
