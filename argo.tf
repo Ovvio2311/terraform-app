@@ -1,5 +1,5 @@
 resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_io" {
-  depends_on   = [module.gke]
+  depends_on   = [kubectl_manifest.clusterissuer]
   manifest = {
     "apiVersion" = "apiextensions.k8s.io/v1"
     "kind" = "CustomResourceDefinition"
