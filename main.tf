@@ -42,7 +42,24 @@ provider "kubernetes" {
   }
 }*/
 # ----------------------------------------------------------------------------------------
-# Read a Kubernetes config file
+resource "helm_release" "cert-manager" {
+  name       = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  version    = "1.7.1"
+
+  namespace        = "cert-manager"
+  create_namespace = true
+
+  #values = [file("cert-manager-values.yaml")]
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
+
+}
+/*# Read a Kubernetes config file
 data "local_file" "yaml_file" {
   filename  = file("cert-manager.yaml")
 }
@@ -52,9 +69,9 @@ data "local_file" "yaml_file" {
 # Create Kubernetes resource with the manifest
 resource "kubernetes_manifest" "cert-manager" {
   manifest = yamldecode(data.local_file.yaml_file.content)
-}
+}*/
 
-/*resource "kubernetes_manifest" "cluster_issuer" {
+resource "kubernetes_manifest" "cluster_issuer" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
     "kind" = "ClusterIssuer"
@@ -66,7 +83,7 @@ resource "kubernetes_manifest" "cert-manager" {
     }
   }
 }
-*/
+
 /*module "gke_auth" {
   source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
   # depends_on   = [module.gke]
