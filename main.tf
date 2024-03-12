@@ -55,7 +55,7 @@ resource "helm_release" "cert-manager" {
 
   set {
     name  = "installCRDs"
-    value = "true"
+    value = "false"
   }
 
 }
@@ -71,7 +71,7 @@ resource "kubernetes_manifest" "cert-manager" {
   manifest = yamldecode(data.local_file.yaml_file.content)
 }*/
 
-resource "kubernetes_manifest" "clusterissuer" {
+resource "kubectl_manifest" "clusterissuer" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
     "kind" = "ClusterIssuer"
