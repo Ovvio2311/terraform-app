@@ -90,7 +90,7 @@ resource "helm_release" "argocd" {
   depends_on = [kubernetes_namespace.argocd]
 
   name       = "argocd"
-  repository = data.helm_repository.argo.metadata[0].name
+  repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   namespace  = var.kubernetes_argocd_namespace
   version    = var.argocd_helm_chart_version == "" ? null : var.argocd_helm_chart_version
