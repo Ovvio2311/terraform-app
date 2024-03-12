@@ -12,10 +12,10 @@ output "project" {
 output "datacluster" {
   value       = data.google_container_cluster.primary
 }
-output "gke_auth" {
+/*output "gke_auth" {
   value = module.gke_auth
   sensitive = true
-}
+}*/
 
 output "content" {
   value = kubernetes_manifest.cluster_issuer.manifest
