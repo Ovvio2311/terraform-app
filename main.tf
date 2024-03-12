@@ -89,7 +89,7 @@ data "local_file" "yaml_file" {
 
 # Create Kubernetes resource with the manifest
 
-/*resource "kubectl_manifest" "clusterissuer"{
+resource "kubectl_manifest" "clusterissuer"{
   depends_on = [kubectl_manifest.cert-manager-crds]
   yaml_body = <<YAML
 apiVersion: cert-manager.io/v1
@@ -100,7 +100,7 @@ spec:
   selfSigned: {}
 YAML
 }
-*/
+
 
 
 /*resource "kubectl_manifest" "clusterissuer" {
