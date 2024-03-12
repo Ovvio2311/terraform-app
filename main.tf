@@ -71,11 +71,8 @@ resource "helm_release" "cert-manager" {
 
 }
 
-
-
-
 # Create Kubernetes resource with the manifest
-/*resource "kubectl_manifest" "clusterissuer"{
+resource "kubectl_manifest" "clusterissuer"{
   depends_on = [helm_release.cert-manager]
   yaml_body = <<YAML
 apiVersion: cert-manager.io/v1
@@ -85,22 +82,6 @@ metadata:
 spec:
   selfSigned: {}
 YAML
-}
-*/
-
-
-resource "kubernetes_manifest" "clusterissuer" {
-  depends_on = [helm_release.cert-manager]
-  manifest = {
-    "apiVersion" = "cert-manager.io/v1"
-    "kind" = "ClusterIssuer"
-    "metadata" = {
-      "name" = "selfsigned-cluster-issuer"
-    }
-    "spec" = {
-      "selfSigned" = {}
-    }
-  }
 }
 
 /*module "gke_auth" {
