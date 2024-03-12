@@ -76,8 +76,20 @@ data "local_file" "yaml_file" {
 resource "kubernetes_manifest" "cert-manager" {
   manifest = yamldecode(data.local_file.yaml_file.content)
 }*/
+resource "kubectl_manifest" "clusterissuer"{
+    yaml_body = <<YAML
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-cluster-issuer
+spec:
+  selfSigned: {}
+YAML
+}
 
-resource "kubectl_manifest" "clusterissuer" {
+
+
+/*resource "kubectl_manifest" "clusterissuer" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
     "kind" = "ClusterIssuer"
@@ -88,7 +100,7 @@ resource "kubectl_manifest" "clusterissuer" {
       "selfSigned" = {}
     }
   }
-}
+}*/
 
 /*module "gke_auth" {
   source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
