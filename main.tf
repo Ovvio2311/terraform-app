@@ -55,7 +55,19 @@ resource "kubernetes_namespace" "cert-manager" {
     name = "cert-manager"
   }
 }
-resource "helm_release" "cert-manager" {
+
+data "http" "cert-manager" {
+  # count = var.enable_argocd ? 1 : 0
+  url   = "https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.yaml"
+}
+
+resource "kubectl_manifest" "cert-manager-crds" {
+  # count     = var.enable_argocd ? 1 : 0
+  yaml_body = data.http.cert-manager.response_body
+}
+
+
+/*resource "helm_release" "cert-manager" {
   name       = "cert-manager"
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
@@ -71,7 +83,7 @@ resource "helm_release" "cert-manager" {
     value = "true"
   }
 
-}
+}*/
 /*# Read a Kubernetes config file
 data "local_file" "yaml_file" {
   filename  = file("cert-manager.yaml")
@@ -80,9 +92,7 @@ data "local_file" "yaml_file" {
 
 
 # Create Kubernetes resource with the manifest
-resource "kubernetes_manifest" "cert-manager" {
-  manifest = yamldecode(data.local_file.yaml_file.content)
-}*/
+
 resource "kubectl_manifest" "clusterissuer"{
   depends_on = [helm_release.cert-manager]
   yaml_body = <<YAML
