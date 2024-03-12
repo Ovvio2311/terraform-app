@@ -77,7 +77,8 @@ resource "kubernetes_manifest" "cert-manager" {
   manifest = yamldecode(data.local_file.yaml_file.content)
 }*/
 resource "kubectl_manifest" "clusterissuer"{
-    yaml_body = <<YAML
+  depends_on = [helm_release.cert-manager]
+  yaml_body = <<YAML
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
