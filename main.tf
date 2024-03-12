@@ -21,7 +21,12 @@ provider "kubernetes" {
   # client_key             = base64decode(data.google_container_cluster.primary.master_auth.0.client_key)
   # client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
 }
-
+provider "kubectl" {
+  host  = "https://${data.google_container_cluster.primary.endpoint}"  
+  token                  = data.google_client_config.default.access_token    
+  cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
+  load_config_file       = false
+}
 /*provider "helm" {
   kubernetes {
     # config_path = "~/.kube/config"
@@ -44,17 +49,14 @@ provider "kubernetes" {
 # ----------------------------------------------------------------------------------------
 # Read a Kubernetes config file
 data "local_file" "yaml_file" {
-  filename = "https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.yaml"
+  file  = yamldecode(file("https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.yaml"))
 }
 
-# Parse the Kubernetes config file
-data "yamldecode" "kubernetes_config" {
-  input = data.local_file.yaml_file.content
-}
+
 
 # Create Kubernetes resource with the manifest
-resource "kubernetes_manifest" "my_resource" {
-  manifest = data.yamldecode.kubernetes_config
+resource "kubernetes_manifest" "cert-manager" {
+  manifest = yamldecode(data.local_file.yaml_file.content)
 }
 
 resource "kubernetes_manifest" "cluster_issuer" {
