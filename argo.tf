@@ -1,3 +1,8 @@
+resource "kubernetes_namespace" "argo" {
+  metadata {
+    name = "argocd"
+  }
+}
 resource "kubernetes_manifest" "customresourcedefinition_applications_argoproj_io" {
   depends_on   = [kubectl_manifest.clusterissuer]
   manifest = {
