@@ -87,14 +87,14 @@ resource "kubectl_manifest" "cert-manager-crds" {
 /*# Read a Kubernetes config file
 data "local_file" "yaml_file" {
   filename  = file("cert-manager.yaml")
-}
+}*/
 
 
 
 # Create Kubernetes resource with the manifest
 
 resource "kubectl_manifest" "clusterissuer"{
-  depends_on = [helm_release.cert-manager]
+  depends_on = [kubectl_manifest.cert-manager-crds]
   yaml_body = <<YAML
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
