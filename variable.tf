@@ -67,7 +67,7 @@ variable "argocd_ingress_class" {
 variable "argocd_ingress_enabled" {
   description = "Enable/disable argocd ingress"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "argocd_ingress_tls_acme_enabled" {
