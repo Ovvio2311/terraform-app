@@ -15,8 +15,9 @@ output "datacluster" {
 /*output "gke_auth" {
   value = module.gke_auth
   sensitive = true
-}*/
+}
 
 output "content" {
   value = kubernetes_manifest.cluster_issuer.manifest
 }
+*/
