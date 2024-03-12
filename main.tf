@@ -49,12 +49,8 @@ provider "helm" {
   }
 }
 # ----------------------------------------------------------------------------------------
-# create namespace
-resource "kubernetes_namespace" "cert-manager" {
-  metadata {
-    name = "cert-manager"
-  }
-}
+
+
 
 data "http" "cert-manager" {
   # count = var.enable_argocd ? 1 : 0
