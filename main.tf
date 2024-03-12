@@ -52,18 +52,8 @@ provider "helm" {
 
 
 
-data "http" "cert-manager" {
-  # count = var.enable_argocd ? 1 : 0
-  url   = "https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml"
-}
 
-resource "kubectl_manifest" "cert-manager-crds" {
-  # count     = var.enable_argocd ? 1 : 0
-  yaml_body = data.http.cert-manager.response_body
-}
-
-
-/*resource "helm_release" "cert-manager" {
+resource "helm_release" "cert-manager" {
   name       = "cert-manager"
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
@@ -79,18 +69,14 @@ resource "kubectl_manifest" "cert-manager-crds" {
     value = "true"
   }
 
-}*/
-/*# Read a Kubernetes config file
-data "local_file" "yaml_file" {
-  filename  = file("cert-manager.yaml")
-}*/
+}
+
 
 
 
 # Create Kubernetes resource with the manifest
-
-resource "kubectl_manifest" "clusterissuer"{
-  depends_on = [kubectl_manifest.cert-manager-crds]
+/*resource "kubectl_manifest" "clusterissuer"{
+  depends_on = [helm_release.cert-manager]
   yaml_body = <<YAML
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -100,10 +86,11 @@ spec:
   selfSigned: {}
 YAML
 }
+*/
 
 
-
-/*resource "kubectl_manifest" "clusterissuer" {
+resource "kubectl_manifest" "clusterissuer" {
+  depends_on = [helm_release.cert-manager]
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
     "kind" = "ClusterIssuer"
@@ -114,7 +101,7 @@ YAML
       "selfSigned" = {}
     }
   }
-}*/
+}
 
 /*module "gke_auth" {
   source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
