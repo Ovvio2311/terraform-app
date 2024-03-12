@@ -75,7 +75,7 @@ resource "helm_release" "cert-manager" {
 
 
 # Create Kubernetes resource with the manifest
-/*resource "kubernetes_manifest" "clusterissuer"{
+/*resource "kubectl_manifest" "clusterissuer"{
   depends_on = [helm_release.cert-manager]
   yaml_body = <<YAML
 apiVersion: cert-manager.io/v1
@@ -89,7 +89,7 @@ YAML
 */
 
 
-resource "kubectl_manifest" "clusterissuer" {
+resource "kubernetes_manifest" "clusterissuer" {
   depends_on = [helm_release.cert-manager]
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
