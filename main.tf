@@ -44,7 +44,7 @@ provider "kubernetes" {
 # ----------------------------------------------------------------------------------------
 # Read a Kubernetes config file
 data "local_file" "yaml_file" {
-  filename  = yamldecode(file("https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.yaml"))
+  filename  = yamldecode(file("cert-manager.yaml"))
 }
 
 
