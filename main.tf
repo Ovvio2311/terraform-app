@@ -22,7 +22,7 @@ provider "kubernetes" {
   # client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
 }
 
-provider "helm" {
+/*provider "helm" {
   kubernetes {
     # config_path = "~/.kube/config"
     # host                   = "https://${module.gke.endpoint}"
@@ -40,7 +40,7 @@ provider "helm" {
     client_key             = base64decode(data.google_container_cluster.update.master_auth.0.client_key)
     client_certificate = base64decode(data.google_container_cluster.update.master_auth.0.client_certificate)
   }
-}
+}*/
 # ----------------------------------------------------------------------------------------
 # Read a Kubernetes config file
 data "local_file" "yaml_file" {
@@ -57,8 +57,20 @@ resource "kubernetes_manifest" "my_resource" {
   manifest = data.yamldecode.kubernetes_config
 }
 
+resource "kubernetes_manifest" "cluster_issuer" {
+  manifest = {
+    "apiVersion" = "cert-manager.io/v1"
+    "kind" = "ClusterIssuer"
+    "metadata" = {
+      "name" = "selfsigned-cluster-issuer"
+    }
+    "spec" = {
+      "selfSigned" = {}
+    }
+  }
+}
 
-module "gke_auth" {
+/*module "gke_auth" {
   source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
   # depends_on   = [module.gke]
   project_id   = var.project_id  
@@ -72,7 +84,7 @@ resource "local_file" "kubeconfig" {
   filename = "kubeconfig"
   depends_on = [module.gke_auth]
 }
-
+*/
 
 
 
