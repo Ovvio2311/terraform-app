@@ -71,7 +71,7 @@ resource "kubernetes_manifest" "cert-manager" {
   manifest = yamldecode(data.local_file.yaml_file.content)
 }*/
 
-resource "kubernetes_manifest" "cluster_issuer" {
+resource "kubernetes_manifest" "clusterissuer" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
     "kind" = "ClusterIssuer"
