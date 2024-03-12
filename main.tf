@@ -54,7 +54,7 @@ resource "kubernetes_manifest" "cert-manager" {
   manifest = yamldecode(data.local_file.yaml_file.content)
 }
 
-resource "kubernetes_manifest" "cluster_issuer" {
+/*resource "kubernetes_manifest" "cluster_issuer" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
     "kind" = "ClusterIssuer"
@@ -66,7 +66,7 @@ resource "kubernetes_manifest" "cluster_issuer" {
     }
   }
 }
-
+*/
 /*module "gke_auth" {
   source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
   # depends_on   = [module.gke]
