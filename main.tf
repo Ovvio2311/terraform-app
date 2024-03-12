@@ -44,7 +44,7 @@ provider "helm" {
 # ----------------------------------------------------------------------------------------
 # Read a Kubernetes config file
 data "local_file" "yaml_file" {
-  filename = "/path/to/your/configfile.yaml"
+  filename = "https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.yaml"
 }
 
 # Parse the Kubernetes config file
