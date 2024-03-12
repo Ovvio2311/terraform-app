@@ -22,12 +22,12 @@ provider "kubernetes" {
   # client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
 }
 
-/*provider "helm" {
+provider "helm" {
   kubernetes {
     # config_path = "~/.kube/config"
     # host                   = "https://${module.gke.endpoint}"
-    host  = "https://${data.google_container_cluster.update.endpoint}"
-    token                  = data.google_client_config.update.access_token
+    host  = "https://${data.google_container_cluster.primary.endpoint}"
+    token                  = data.google_client_config.primary.access_token
     # cluster_ca_certificate   = base64decode(module.gke.ca_certificate)
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
@@ -36,11 +36,11 @@ provider "kubernetes" {
       # command="gke-gloud-auth-plugin"
       command     = "gcloud"
     }
-    cluster_ca_certificate = base64decode(data.google_container_cluster.update.master_auth[0].cluster_ca_certificate)
-    client_key             = base64decode(data.google_container_cluster.update.master_auth.0.client_key)
-    client_certificate = base64decode(data.google_container_cluster.update.master_auth.0.client_certificate)
+    cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
+    client_key             = base64decode(data.google_container_cluster.primary.master_auth.0.client_key)
+    client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
   }
-}*/
+}
 # ----------------------------------------------------------------------------------------
 resource "helm_release" "cert-manager" {
   name       = "cert-manager"
