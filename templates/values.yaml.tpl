@@ -23,3 +23,5 @@ server:
     nodePortHttp: 31080    
     
     
+params:
+  server.insecure: true
