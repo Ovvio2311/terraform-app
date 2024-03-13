@@ -56,6 +56,7 @@ variable "argocd_helm_chart_version" {
 variable "argocd_server_host" {
   description = "Hostname for argocd (will be utilised in ingress if enabled)"
   type        = string
+  
 }
 
 variable "argocd_ingress_class" {
@@ -88,22 +89,4 @@ variable "argocd_ingress_tls_secret_name" {
   default     = "argocd-cert"
 }
 
-variable "eks_iam_argocd_role_name" {
-  description = "IAM EKS service account role name for Argo CD"
-  type        = string
-}
 
-variable "argocd_github_client_id" {
-  description = "GitHub OAuth application client id (see Argo CD user management guide)"
-  type        = string
-}
-
-variable "argocd_github_client_secret" {
-  description = "GitHub OAuth application client secret (see Argo CD user management guide)"
-  type        = string
-}
-
-variable "argocd_github_org_name" {
-  description = "Organisation to restrict Argo CD to"
-  type        = string
-}
