@@ -1,7 +1,8 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: keycloak  
+  name: keycloak
+  namespace: keycloak
 spec:
   podManagementPolicy: Parallel
   serviceName: keycloak
@@ -84,6 +85,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: keycloak
+  namespace: keycloak
 spec:
   selector:
     app: keycloak
