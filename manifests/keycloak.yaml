@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: keycloak  
+spec:
+  podManagementPolicy: Parallel
+  serviceName: keycloak
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:23.0.6
+          imagePullPolicy: IfNotPresent
+          args: ["start-dev", --hostname-debug=true]
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: https
+              containerPort: 8443
+              protocol: TCP
+          env:           
+            - name: KC_DB
+              value: mysql
+            - name: KC_DB_URL
+              value: "jdbc:mysql://34.67.199.226/keycloak"
+            - name: KC_DB_URL_PORT
+              value: "3306"
+            - name: KC_DB_SCHEMA
+              value: "keycloak"
+            - name: KC_HOSTNAME_ADMIN_URL
+              value: "https://myfitnessgym.me/keycloak"
+            - name: KC_HOSTNAME_URL              
+              value: "https://myfitnessgym.me/keycloak"
+            - name: KC_HTTP_ENABLED
+              value: "true"
+            - name: KC_PROXY
+              value: edge
+            - name: KC_HOSTNAME_PATH
+              value: keycloak
+            - name: KC_HTTP_RELATIVE_PATH
+              value: /keycloak
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_HOSTNAME_STRICT_HTTPS
+              value: "true"
+            - name: KC_HOSTNAME_STRICT_BACKCHANNEL
+              value: "true"  
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-db-secret
+                  key: username
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-db-secret
+                  key: password
+            - name: KEYCLOAK_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secrets
+                  key: keycloak_admin
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secrets
+                  key: keycloak_pw        
+          volumeMounts:
+            - name: keycloak-data
+              mountPath: /opt/jboss/keycloak/standalone/data
+      volumes:
+        - name: keycloak-data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+spec:
+  selector:
+    app: keycloak
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+  - name: https
+    protocol: TCP
+    port: 443
+    targetPort: 8443
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak-ingress
+  namespace: keycloak
+  annotations:
+    cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: myfitnessgym.me
+      http:
+        paths:
+        - pathType: Exact
+          path: /keycloak
+          backend:
+            service:
+              name: keycloak
+              port:
+                name: http      
+  tls:
+    - secretName: tls-keycloak-secret
+      hosts:
+      - myfitnessgym.me
