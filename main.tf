@@ -115,24 +115,22 @@ resource "kubectl_manifest" "keycloak" {
     for_each  = data.kubectl_file_documents.docs.manifests
     yaml_body = each.value
 }
-
-
-
-/*module "gke_auth" {
-  source       = "terraform-google-modules/kubernetes-engine/google//modules/auth"
-  # depends_on   = [module.gke]
-  project_id   = var.project_id  
-  location     = module.gke.location
-  cluster_name = module.gke.name
-  
-  
+resource "kubernetes_namespace" "mongo" {
+  metadata {
+    name = "mongo"
+  }
 }
-resource "local_file" "kubeconfig" {
-  content  = module.gke_auth.kubeconfig_raw
-  filename = "kubeconfig"
-  depends_on = [module.gke_auth]
+//mongo deployment
+data "kubectl_file_documents" "mongo" {
+    content = file("./manifests/mongodb.yaml")
 }
-*/
+
+resource "kubectl_manifest" "mongo" {
+    for_each  = data.kubectl_file_documents.mongo.manifests
+    yaml_body = each.value
+}
+
+
 
 
 
