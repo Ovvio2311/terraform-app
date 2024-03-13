@@ -79,12 +79,6 @@ spec:
 YAML
 }
 
-resource "kubernetes_namespace" "argocd" {
-  metadata {
-    name = var.kubernetes_argocd_namespace
-  }
-}
-
 resource "helm_release" "argocd" {
   depends_on = [kubernetes_namespace.argocd]
   name       = "argocd"
@@ -93,6 +87,7 @@ resource "helm_release" "argocd" {
   namespace  = var.kubernetes_argocd_namespace
   version    = var.argocd_helm_chart_version == "" ? null : var.argocd_helm_chart_version
 
+  create_namespace = true
   values = [
     templatefile(
       "${path.module}/templates/values.yaml.tpl",
