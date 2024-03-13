@@ -21,5 +21,5 @@ server:
   service:    
     type: NodePort    
     nodePortHttp: 31080    
-    nodePortHttps: 31443
+    
     
