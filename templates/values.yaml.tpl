@@ -1,5 +1,8 @@
 installCRDs: true
 
+redis-ha:
+  enabled: false
+
 server:
   ingress:
     enabled: ${ argocd_ingress_enabled }
@@ -14,3 +17,9 @@ server:
         hosts:
           - ${ argocd_server_host }
 
+server:    
+  service:    
+    type: NodePort    
+    nodePortHttp: 31080    
+    nodePortHttps: 31443
+    
