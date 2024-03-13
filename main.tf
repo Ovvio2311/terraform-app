@@ -108,10 +108,10 @@ resource "helm_release" "argocd" {
       }
     )
   ]
-  set {
+  /*set {
     name = "server.server.type"
     value = "NodePort"
-  }
+  }*/
   set {
     name  = "server.extraArgs"
     value = "{--insecure}"
