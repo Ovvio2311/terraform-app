@@ -127,3 +127,26 @@ spec:
     - secretName: tls-keycloak-secret
       hosts:
       - myfitnessgym.me
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    database: a2V5Y2xvYWs=
+    password: M0RwMSZNQlo=
+    username: cm9vdA==
+  kind: Secret
+  metadata:    
+    name: keycloak-db-secret
+    namespace: keycloak        
+  type: Opaque
+---
+- apiVersion: v1
+  data:
+    keycloak_admin: YWRtaW4=
+    keycloak_pw: YWRtaW4=
+  kind: Secret
+  metadata:    
+    name: keycloak-secrets
+    namespace: keycloak    
+  type: Opaque
