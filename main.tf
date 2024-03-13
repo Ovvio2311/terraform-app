@@ -87,7 +87,6 @@ resource "kubernetes_namespace" "argocd" {
 
 resource "helm_release" "argocd" {
   depends_on = [kubernetes_namespace.argocd]
-
   name       = "argocd"
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
@@ -114,7 +113,7 @@ resource "helm_release" "argocd" {
 }
 //keycloak deployment
 data "kubectl_file_documents" "docs" {
-    content = file("keycloak.yaml")
+    content = file("./manifests/keycloak.yaml")
 }
 
 resource "kubectl_manifest" "keycloak" {
