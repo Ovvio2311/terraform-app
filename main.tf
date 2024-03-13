@@ -1,4 +1,3 @@
-
 data "google_client_config" "default" {  
 }
 
@@ -14,6 +13,7 @@ provider "google" {
   region  = "us-central1"
   zone    = "us-central1-c"
 }
+
 provider "kubernetes" {
   host  = "https://${data.google_container_cluster.primary.endpoint}"  
   token                  = data.google_client_config.default.access_token    
@@ -21,6 +21,7 @@ provider "kubernetes" {
   # client_key             = base64decode(data.google_container_cluster.primary.master_auth.0.client_key)
   # client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
 }
+
 provider "kubectl" {
   host  = "https://${data.google_container_cluster.primary.endpoint}"  
   token                  = data.google_client_config.default.access_token    
@@ -29,6 +30,7 @@ provider "kubectl" {
   # client_key             = base64decode(data.google_container_cluster.primary.master_auth.0.client_key)
   # client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
 }
+
 provider "helm" {
   kubernetes {
     # config_path = "~/.kube/config"
@@ -57,14 +59,11 @@ resource "helm_release" "cert-manager" {
 
   namespace        = "cert-manager"
   create_namespace = true
-
   #values = [file("cert-manager-values.yaml")]
-
   set {
     name  = "installCRDs"
     value = "true"
   }
-
 }
 
 # Create Kubernetes resource with the manifest
