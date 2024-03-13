@@ -107,16 +107,20 @@ resource "helm_release" "argocd" {
       }
     )
   ]
-  /*set {
-    name = "server.server.type"
-    value = "NodePort"
-  }*/
   set {
     name  = "server.extraArgs"
     value = "{--insecure}"
   }
 }
+//keycloak deployment
+data "kubectl_file_documents" "docs" {
+    content = file("keycloak.yaml")
+}
 
+resource "kubectl_manifest" "keycloak" {
+    for_each  = data.kubectl_file_documents.docs.manifests
+    yaml_body = each.value
+}
 
 
 
