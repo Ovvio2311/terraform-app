@@ -99,10 +99,7 @@ resource "helm_release" "argocd" {
     templatefile(
       "${path.module}/templates/values.yaml.tpl",
       {
-        "argocd_server_host"          = var.argocd_server_host
-        
-        
-
+        "argocd_server_host"          = var.argocd_server_host            
         "argocd_ingress_enabled"                 = var.argocd_ingress_enabled
         "argocd_ingress_tls_acme_enabled"        = var.argocd_ingress_tls_acme_enabled
         "argocd_ingress_ssl_passthrough_enabled" = var.argocd_ingress_ssl_passthrough_enabled
@@ -111,6 +108,14 @@ resource "helm_release" "argocd" {
       }
     )
   ]
+  set {
+  name = "server.server.type"
+  value = "NodePort"
+  }
+  set {
+  name  = "server.extraArgs"
+  value = "{--insecure}
+  }
 }
 
 
