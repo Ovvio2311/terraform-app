@@ -50,7 +50,7 @@ variable "kubernetes_argocd_namespace" {
 variable "argocd_helm_chart_version" {
   description = "argocd helm chart version to use"
   type        = string
-  default     = ""
+  default     = "6.7.0"
 }
 
 variable "argocd_server_host" {
