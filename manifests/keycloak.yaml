@@ -94,10 +94,12 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 8080
+    nodePortHttp: 38080
   - name: https
     protocol: TCP
     port: 443
     targetPort: 8443
+    nodePortHttp: 38443
   type: NodePort
 ---
 apiVersion: networking.k8s.io/v1
