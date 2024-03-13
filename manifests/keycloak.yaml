@@ -19,7 +19,7 @@ spec:
         - name: keycloak
           image: quay.io/keycloak/keycloak:23.0.6
           imagePullPolicy: IfNotPresent
-          args: ["start-dev", --hostname-debug=true]
+          args: ["start", --hostname-debug=true]
           ports:
             - name: http
               containerPort: 8080
