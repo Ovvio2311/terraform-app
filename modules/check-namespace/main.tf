@@ -25,7 +25,10 @@ variable "name" {
   type        = string
   default     = "default"
 }
-
+variable "cluster_name" {
+  type        = string
+  default     = "default"
+}
 resource "null_resource" "check-namespace" {
 
   triggers = {
