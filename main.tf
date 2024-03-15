@@ -111,7 +111,7 @@ module "check_namespace" {
   source = "./modules/check-namespace"
   name   = "keycloak"
 }
-module "check_namespace" {
+module "check_namespace_mongo" {
   source = "./modules/check-namespace"
   name   = "mongo"
 }
