@@ -26,7 +26,7 @@ resource "null_resource" "check-namespace" {
     build_number = "${timestamp()}"
   }
   provisioner "local-exec" {
-    command = <<SCRIPT      
+    command = <<SCRIPT
       var=$(kubectl get namespaces|grep ${var.name}| wc -l)
       if [ "$var" -eq "0" ]
       then kubectl create namespace ${var.name}
