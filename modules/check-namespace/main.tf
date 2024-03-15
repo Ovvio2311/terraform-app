@@ -15,7 +15,11 @@ resource "null_resource" "check-namespace" {
   }
   provisioner "local-exec" {
     command = <<SCRIPT
-      gcloud container clusters get-credentials var.cluster_name --zone us-central1-c --project able-scope-413414
+      gcloud container clusters get-credentials fyp-vpc-cluster --zone us-central1-c --project able-scope-413414      
+    SCRIPT
+  }
+  provisioner "local-exec" {
+    command = <<SCRIPT      
       var=$(kubectl get namespaces|grep ${var.name}| wc -l)
       if [ "$var" -eq "0" ]
       then kubectl create namespace ${var.name}
