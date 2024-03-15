@@ -108,8 +108,12 @@ resource "helm_release" "argocd" {
 }
 
 module "check_namespace" {
-  source = "../../../../common/check-namespace"
+  source = "modules/check-namespace"
   name   = "keycloak"
+}
+module "check_namespace" {
+  source = "modules/check-namespace"
+  name   = "mongo"
 }
 //keycloak deployment
 data "kubectl_file_documents" "docs" {
