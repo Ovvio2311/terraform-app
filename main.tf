@@ -107,7 +107,7 @@ resource "helm_release" "argocd" {
   }
 }
 
-module "check_namespace" {
+module "check_namespace_keycloak" {
   source = "./modules/check-namespace"
   cluster_name = var.cluster_name
   name   = "keycloak"
