@@ -1,5 +1,16 @@
+data "google_client_config" "provider" {}
 
-
+data "google_container_cluster" "my_cluster" {
+  name     = "fyp-vpc-cluster"
+  location = "us-central1"
+}
+provider "kubernetes" {
+  host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+  token = data.google_client_config.provider.access_token
+  cluster_ca_certificate = base64decode(
+    data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate,
+  )
+}
 variable "name" {
   type        = string
   default     = "default"
@@ -8,15 +19,11 @@ variable "cluster_name" {
   type        = string
   default     = "default"
 }
+
 resource "null_resource" "check-namespace" {
 
   triggers = {
     build_number = "${timestamp()}"
-  }
-  provisioner "local-exec" {
-    command = <<SCRIPT
-      gcloud container clusters get-credentials fyp-vpc-cluster --zone us-central1-c --project able-scope-413414      
-    SCRIPT
   }
   provisioner "local-exec" {
     command = <<SCRIPT      
