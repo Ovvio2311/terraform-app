@@ -106,6 +106,11 @@ resource "helm_release" "argocd" {
     value = "{--insecure}"
   }
 }
+
+module "check_namespace" {
+  source = "../../../../common/check-namespace"
+  name   = "keycloak"
+}
 //keycloak deployment
 data "kubectl_file_documents" "docs" {
     content = file("./manifests/keycloak.yaml")
