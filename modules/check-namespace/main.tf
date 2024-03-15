@@ -2,7 +2,7 @@ data "google_client_config" "default" {}
 
 data "google_container_cluster" "primary" {
   name     = "fyp-vpc-cluster"
-  location = "us-central1"
+  location = "us-central1-c"
 }
 provider "kubernetes" {
   host  = "https://${data.google_container_cluster.primary.endpoint}"
