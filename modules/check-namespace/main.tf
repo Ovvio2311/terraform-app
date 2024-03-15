@@ -32,7 +32,7 @@ resource "null_resource" "check-namespace" {
 output "namespace_name" {
   value = var.name
 }
-
+/*
 output "id" {
   value = null_resource.check-namespace.id
-}
+}*/
