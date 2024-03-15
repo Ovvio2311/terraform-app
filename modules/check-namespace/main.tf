@@ -30,7 +30,7 @@ resource "null_resource" "check-namespace" {
       var=$(kubectl get namespaces|grep ${var.name}| wc -l)
       if [ "$var" -eq "0" ]
       then kubectl create namespace ${var.name}
-      else echo '${var.name} already exists' >&3
+      # else echo '${var.name} already exists' >&3
       fi
     SCRIPT
   }
