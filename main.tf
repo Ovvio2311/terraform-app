@@ -27,6 +27,13 @@ provider "kubectl" {
   token                  = data.google_client_config.default.access_token    
   cluster_ca_certificate = base64decode(data.google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
   load_config_file       = false
+  exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      args        = ["container", "clusters", "get-credentials", var.cluster_name, "--zone", "us-central1", "--project", var.project_id]
+      # args=[]
+      # command="gke-gloud-auth-plugin"
+      command     = "gcloud"
+    }
   # client_key             = base64decode(data.google_container_cluster.primary.master_auth.0.client_key)
   # client_certificate = base64decode(data.google_container_cluster.primary.master_auth.0.client_certificate)
 }
