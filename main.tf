@@ -51,11 +51,35 @@ provider "helm" {
   }
 }
 # ----------------------------------------------------------------------------------------
+resource "google_compute_address" "static" {
+  name         = "nginx-controller"
+  address_type = "EXTERNAL"
+  
+  # purpose      = "GCE_ENDPOINT"
+}
+
+resource "helm_release" "nginx_ingress_controller" {
+  name       = "ingress-nginx"
+  namespace  = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  values     = ["${file("values.yaml")}"]
+  create_namespace = true  
+  depends_on = [ google_compute_address.static]
+  
+  set {    
+      name  = "controller.service.loadBalancerIP"
+      value = google_compute_address.static.address    
+  }
+}
+
+
 resource "helm_release" "cert-manager" {
   name       = "cert-manager"
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
   version    = "1.7.1"
+  depends_on = [helm_release.cert-manager]
 
   namespace        = "cert-manager"
   create_namespace = true
