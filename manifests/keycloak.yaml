@@ -37,11 +37,11 @@ spec:
             - name: KC_DB_SCHEMA
               value: "keycloak"
             - name: KC_HOSTNAME_ADMIN_URL
-              value: "https://myfitnessgym.me/keycloak"
-              # value: "https://10.0.0.3/keycloak"
+              # value: "https://myfitnessgym.me/keycloak"
+              value: "https://10.0.0.3/keycloak"
             - name: KC_HOSTNAME_URL              
-              value: "https://myfitnessgym.me/keycloak"
-              # value: "https://10.0.0.3/keycloak"
+              # value: "https://myfitnessgym.me/keycloak"
+              value: "https://10.0.0.3/keycloak"
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_PROXY
@@ -50,13 +50,15 @@ spec:
               value: keycloak
             - name: KC_HTTP_RELATIVE_PATH
               value: /keycloak
+            - name: KC_HTTP_PORT
+              value: "32080"
             - name: KC_HOSTNAME_STRICT
               value: "false"
             - name: KC_HOSTNAME_STRICT_HTTPS
               value: "true"
             - name: KC_HOSTNAME_STRICT_BACKCHANNEL
               value: "true"  
-            - name: KC_DB_USERNAME
+            - name: KC_DB_USERNAME            
               valueFrom:
                 secretKeyRef:
                   name: keycloak-db-secret
