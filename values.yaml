@@ -1,12 +1,12 @@
 spec:
   template:
-   # metadata:
-    #  annotations:
-     #   nginx.ingress.kubernetes.io/proxy-body-size: 30m
-      #  nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
-       # nginx.ingress.kubernetes.io/proxy-buffering: "on"
-       # nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
-       # nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 2048m
+    metadata:
+      annotations:
+        nginx.ingress.kubernetes.io/proxy-body-size: 30m
+        nginx.ingress.kubernetes.io/proxy-buffer-size: 256k
+        nginx.ingress.kubernetes.io/proxy-buffering: "on"
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+        nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 2048m
     spec:
       containers:
         - name: controller
