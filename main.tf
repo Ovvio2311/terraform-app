@@ -1,3 +1,7 @@
+# auth cluster
+# gcloud container clusters get-credentials fyp-vpc-cluster \
+#    --region=us-central1-c
+
 data "google_client_config" "default" {  
 }
 
