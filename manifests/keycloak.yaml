@@ -31,17 +31,17 @@ spec:
             - name: KC_DB
               value: mysql
             - name: KC_DB_URL
-              value: "jdbc:mysql://104.154.131.33/keycloak"
+              value: "jdbc:mysql://34.122.186.59/keycloak"
             - name: KC_DB_URL_PORT
               value: "3306"
             - name: KC_DB_SCHEMA
               value: "keycloak"
             - name: KC_HOSTNAME_ADMIN_URL
               # value: "https://myfitnessgym.me/keycloak"
-              value: "http://10.0.0.11:32080/keycloak"
+              value: "http://10.0.0.8:32080/keycloak"
             - name: KC_HOSTNAME_URL              
               # value: "https://myfitnessgym.me/keycloak"
-              value: "http://10.0.0.11:32080/keycloak"
+              value: "http://10.0.0.8:32080/keycloak"
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_PROXY
