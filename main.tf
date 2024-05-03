@@ -161,11 +161,7 @@ resource "kubectl_manifest" "keycloak" {
     for_each  = data.kubectl_file_documents.docs.manifests
     yaml_body = each.value
 }
-resource "kubernetes_namespace" "mongo" {
-  metadata {
-    name = "mongo"
-  }
-}
+
 //mongo deployment
 data "kubectl_file_documents" "mongo" {
     content = file("./manifests/mongodb.yaml")
